@@ -13,29 +13,12 @@ import {
 } from "reactstrap";
 import MaterialList from './MaterialList';
 
-const Materials = [
-  {
-    Name: 'Wood',
-    Area: null,
-    Absorption: [0.15, 0.11, 0.1, 0.07, 0.06, 0.07]
-  },
-  {
-    Name: 'Glass',
-    Area: null,
-    Absorption: [0.35, 0.25, 0.18, 0.12, 0.07, 0.04]
-  },
-  {
-    Name: 'Concrete',
-    Area: null,
-    Absorption: [0.36, 0.44, 0.31, 0.29, 0.39, 0.25]
-  }
-]
 
-const RoomDimentions = () => {
-  const [totalSurface, setTotalSurface] = useState();
-  const [volume, setVolume] = useState();
-  const [units, setUnits] = useState("meters");
-  const [materials, setMaterials] = useState(Materials);
+const RoomDimentions = ({materials, setMaterials, units, setUnits, volume, setVolume, totalSurface, setTotalSurface}) => {
+  // const [totalSurface, setTotalSurface] = useState();
+  // const [volume, setVolume] = useState();
+  // const [units, setUnits] = useState("meters");
+  
 
   return (
     <React.Fragment>
@@ -50,7 +33,7 @@ const RoomDimentions = () => {
           <Row form>
             <Col md={6}>
               <FormGroup>
-                <Label>Total Surface</Label>
+                <Label>Total Surface ({units === 'meters' ? "m²" : "ft²"})</Label>
                 <Input 
                   type="number" 
                   name="surface" 
@@ -63,7 +46,7 @@ const RoomDimentions = () => {
 
             <Col md={6}>
               <FormGroup>
-                <Label>Volume</Label>
+                <Label>Volume ({units === 'meters' ? "m³" : "ft³"}) </Label>
                 <Input 
                   type="number" 
                   name="volume" 
@@ -100,9 +83,10 @@ const RoomDimentions = () => {
       </CardHeader>
       <CardBody>
         <MaterialList 
-          list = {Materials}
+          list = {materials}
           units = {units}
-          onAreaChange={(index,e) => console.log(index,e.target.value)}
+          // onAreaChange={(index,e) => console.log(index,e.target.value)}
+          onAreaChange={setMaterials}
         />
       </CardBody>
     </Card>

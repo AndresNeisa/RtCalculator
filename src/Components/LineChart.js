@@ -5,60 +5,42 @@ import { Card, CardBody, CardHeader, CardTitle } from "reactstrap";
 
 const LineChart = ({ theme }) => {
   const data = {
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
+    labels: [ 
+      "125",
+      "250",
+      "500",
+      "1K",
+      "2K",
+      "4K",
     ],
     datasets: [
       {
-        label: "Sales ($)",
+        label: "Initial",
         fill: true,
         backgroundColor: "transparent",
         borderColor: theme.primary,
         data: [
-          2115,
-          1562,
-          1584,
-          1892,
-          1487,
-          2223,
-          2966,
-          2448,
-          2905,
-          3838,
-          2917,
-          3327
+          2.5,
+          1.4,
+          1.6,
+          1.7,
+          1.8,
+          2.8
         ]
       },
       {
-        label: "Orders",
+        label: "With Material",
         fill: true,
         backgroundColor: "transparent",
         borderColor: theme.tertiary,
         borderDash: [4, 4],
         data: [
-          958,
-          724,
-          629,
-          883,
-          915,
-          1214,
-          1476,
-          1212,
-          1554,
-          2128,
-          1466,
-          1827
+          1.3,
+          1.4,
+          1.6,
+          1.7,
+          1.1,
+          1.3,
         ]
       }
     ]
@@ -85,21 +67,31 @@ const LineChart = ({ theme }) => {
         {
           reverse: true,
           gridLines: {
-            color: "rgba(0,0,0,0.05)"
+            color: "rgba(0,0,0,0.2)"
+          },
+          scaleLabel: {
+            display: true,
+            labelString: "Hz"
           }
         }
       ],
       yAxes: [
         {
           ticks: {
-            stepSize: 500
+            min: 0,
+            stepSize: 0.5
           },
           display: true,
-          borderDash: [5, 5],
+          borderDash: [4, 4],
           gridLines: {
-            color: "rgba(0,0,0,0)",
-            fontColor: "#fff"
+            color: "rgba(0,0,0,0.05)",
+            fontColor: "#000"
+          },
+          scaleLabel: {
+            display: true,
+            labelString: "Seconds"
           }
+          
         }
       ]
     }
@@ -108,9 +100,9 @@ const LineChart = ({ theme }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle tag="h5">Line Chart</CardTitle>
+        <CardTitle tag="h5">Reverberation Time</CardTitle>
         <h6 className="card-subtitle text-muted">
-          A line chart is a way of plotting data points on a line.
+          
         </h6>
       </CardHeader>
       <CardBody>

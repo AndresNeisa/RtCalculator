@@ -11,7 +11,7 @@ import {
     Table
   } from "reactstrap";
 
-const Results = () => {
+const Results = ({ units, testMaterial, setTestMaterial }) => {
 
     return (
         <React.Fragment>
@@ -26,7 +26,7 @@ const Results = () => {
             <CardBody>
                 
 
-                <Table bordered>
+                <Table bordered responsive>
                 <thead>
                     <tr>
                     <th>Frequency</th>
@@ -41,18 +41,24 @@ const Results = () => {
                 <tbody>
                     <tr>
                     <td>Abs. Coef.</td>
-                    <td><Input type="text" name="input" placeholder="Input" /></td>
-                    <td><Input type="text" name="input" placeholder="Input" /></td>
-                    <td><Input type="text" name="input" placeholder="Input" /></td>
-                    <td><Input type="text" name="input" placeholder="Input" /></td>
-                    <td><Input type="text" name="input" placeholder="Input" /></td>
-                    <td><Input type="text" name="input" placeholder="Input" /></td>
+                    <td><Input type="text" name="input" placeholder="0-1" /></td>
+                    <td><Input type="text" name="input" placeholder="0-1" /></td>
+                    <td><Input type="text" name="input" placeholder="0-1" /></td>
+                    <td><Input type="text" name="input" placeholder="0-1" /></td>
+                    <td><Input type="text" name="input" placeholder="0-1" /></td>
+                    <td><Input type="text" name="input" placeholder="0-1" /></td>
                     </tr>
                 </tbody>
                 </Table>
                 <FormGroup>
-                    <Label>Area</Label>
-                    <Input type="text" name="input" placeholder="Input" />
+                    <Label>Area ({units === 'meters' ? "m²" : "ft²"})</Label>
+                    <Input 
+                        type="number" 
+                        name="input" 
+                        placeholder={units === 'meters' ? "m²" : "ft²"} 
+                        value = {testMaterial.Area}
+                        onChange = {e => {setTestMaterial({...testMaterial, Area: e.target.value})}}
+                    />
                 </FormGroup>
             </CardBody>
             </Card>  

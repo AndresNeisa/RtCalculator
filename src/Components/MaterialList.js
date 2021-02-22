@@ -12,6 +12,12 @@ const MaterialList = ({ list, units, onAreaChange }) => {
         setLinkedMaterial(linkedMaterial === index ? -1 : index);
     }
 
+    const handleMaterial = (index,value) => {
+        let temporaryList = [...list];
+        temporaryList[index].Area = value;
+        onAreaChange(temporaryList);
+    }
+
 
     return(
         <Table hover bordered>
@@ -19,7 +25,7 @@ const MaterialList = ({ list, units, onAreaChange }) => {
             <tr>
               <th>#</th>
               <th>Name</th>
-              <th>Area</th>
+              <th>Area ({units === 'meters' ? "m²" : "ft²"})</th>
               <th>Linked</th>
             </tr>
           </thead>
@@ -36,7 +42,9 @@ const MaterialList = ({ list, units, onAreaChange }) => {
                             type="number" 
                             size="4" 
                             placeholder={units === 'meters' ? "m²" : "ft²"}
-                            onChange={(e) => onAreaChange(index,e)}
+                            value = {material.Area}
+                            // onChange={(e) => onAreaChange(index,e)}
+                            onChange = {(e) => handleMaterial(index,e.target.value)}
                         />
                     </td>
                     <td style={{ width: "5%", textAlign: "end" }}>
