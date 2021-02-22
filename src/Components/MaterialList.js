@@ -5,8 +5,7 @@ import {
     Table 
 } from 'reactstrap';
 
-const MaterialList = ({ list, units, onAreaChange }) => {
-    const [linkedMaterial, setLinkedMaterial] = useState();
+const MaterialList = ({ list, units, onAreaChange , setMaterials, autoCompleteArea, linkedMaterial, setLinkedMaterial}) => {
 
     const updateLinkedMaterial = (index) => {
         setLinkedMaterial(linkedMaterial === index ? -1 : index);
@@ -14,7 +13,7 @@ const MaterialList = ({ list, units, onAreaChange }) => {
 
     const handleMaterial = (index,value) => {
         let temporaryList = [...list];
-        temporaryList[index].Area = value;
+        temporaryList[index].Area = parseFloat(value);
         onAreaChange(temporaryList);
     }
 
@@ -45,6 +44,12 @@ const MaterialList = ({ list, units, onAreaChange }) => {
                             value = {material.Area}
                             // onChange={(e) => onAreaChange(index,e)}
                             onChange = {(e) => handleMaterial(index,e.target.value)}
+                            onDoubleClick = {
+                                (e) => autoCompleteArea({
+                                    Area: e.target.value, 
+                                    setMaterialArea: setMaterials,
+                                    Index: index
+                                })}
                         />
                     </td>
                     <td style={{ width: "5%", textAlign: "end" }}>

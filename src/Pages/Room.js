@@ -29,12 +29,56 @@ const TestMaterial = {
 const Room = () => {
     const [materials, setMaterials] = useState(Materials);
     const [units, setUnits] = useState("meters");
-    const [volume, setVolume] = useState();
-    const [totalSurface, setTotalSurface] = useState();
+    const [volume, setVolume] = useState("");
+    const [totalSurface, setTotalSurface] = useState("");
     const [testMaterial, setTestMaterial] = useState(TestMaterial);
+    const [areaLeft, setAreaLeft] = useState();
+    const [linkedMaterial, setLinkedMaterial] = useState();
 
     const convertDimension = (units,dim,rate) => {
         return units === "meters" ? dim * rate : dim / rate;
+    }
+
+    const autoCompleteArea = (opt) => {
+        const area = parseFloat(areaLeft);
+        const materialArea = parseFloat(opt.Area) || 0;
+
+        if(area){
+            if(area > 0){
+                if (opt.Index < 0){
+                   opt.setMaterialArea({...testMaterial, Area: materialArea + area});
+                }
+                else{
+                    let tempMaterialList = [...Materials];
+                    tempMaterialList[opt.Index].Area =  materialArea + area;
+                    opt.setMaterialArea(tempMaterialList);
+                }
+            }
+            else{
+                if(Math.abs(area) < materialArea){
+                    if (opt.Index < 0){
+                        opt.setMaterialArea({...testMaterial, Area: materialArea + area});
+                     }
+                     else{
+                         let tempMaterialList = [...Materials];
+                         tempMaterialList[opt.Index].Area =  materialArea + area;
+                         opt.setMaterialArea(tempMaterialList);
+                     }
+                }
+                else{
+                    setAreaLeft(area + materialArea);
+                    if (opt.Index < 0){
+                        opt.setMaterialArea({...testMaterial, Area: 0});
+                     }
+                     else{
+                         let tempMaterialList = [...Materials];
+                         tempMaterialList[opt.Index].Area =  0;
+                         opt.setMaterialArea(tempMaterialList);
+                     }
+                }
+            }
+        }
+        
     }
 
     useEffect(() =>{
@@ -56,7 +100,20 @@ const Room = () => {
         // Test Material Area
         testMaterial.Area && setTestMaterial({...testMaterial, Area:
             convertDimension(units,testMaterial.Area,10.764)});
+
+        // Area Left
+        areaLeft && setAreaLeft(convertDimension(units,areaLeft,10.764));
     },[units])
+
+    // AREA CHANGES
+    useEffect(() => {
+
+        setAreaLeft(
+            parseFloat(totalSurface || 0) -
+            (parseFloat(materials.reduce((roomArea,material) => roomArea + (parseFloat(material.Area) || 0), 0) || 0) +
+            parseFloat(testMaterial.Area || 0)));
+
+    }, [materials, totalSurface, testMaterial])
 
     return(
         
@@ -74,6 +131,10 @@ const Room = () => {
                         setVolume = {setVolume}
                         totalSurface = {totalSurface}
                         setTotalSurface = {setTotalSurface}
+                        areaLeft = {areaLeft}
+                        autoCompleteArea = {autoCompleteArea}
+                        linkedMaterial = {linkedMaterial}
+                        setLinkedMaterial = {setLinkedMaterial}
                     />
                 </Col>
 
@@ -82,6 +143,9 @@ const Room = () => {
                         units = {units}
                         testMaterial = {testMaterial}
                         setTestMaterial = {setTestMaterial}
+                        areaLeft = {areaLeft}
+                        setAreaLeft = {setAreaLeft}
+                        autoCompleteArea = {autoCompleteArea}
                     />
                 </Col>
             </Row>

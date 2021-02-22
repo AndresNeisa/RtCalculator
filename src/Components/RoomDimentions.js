@@ -14,10 +14,11 @@ import {
 import MaterialList from './MaterialList';
 
 
-const RoomDimentions = ({materials, setMaterials, units, setUnits, volume, setVolume, totalSurface, setTotalSurface}) => {
+const RoomDimentions = ({materials, setMaterials, units, setUnits, volume, setVolume, totalSurface, setTotalSurface, areaLeft, autoCompleteArea, linkedMaterial, setLinkedMaterial}) => {
   // const [totalSurface, setTotalSurface] = useState();
   // const [volume, setVolume] = useState();
   // const [units, setUnits] = useState("meters");
+  const areaColor = areaLeft > 0 ? "success" : areaLeft < 0 ? "danger" : "";
   
 
   return (
@@ -39,7 +40,7 @@ const RoomDimentions = ({materials, setMaterials, units, setUnits, volume, setVo
                   name="surface" 
                   placeholder={units === 'meters' ? "m²" : "ft²"}
                   value={totalSurface}
-                  onChange={(e) => setTotalSurface(e.target.value)} 
+                  onChange={(e) => setTotalSurface(parseFloat(e.target.value))} 
                 />
               </FormGroup>
             </Col>
@@ -52,7 +53,7 @@ const RoomDimentions = ({materials, setMaterials, units, setUnits, volume, setVo
                   name="volume" 
                   placeholder={units === 'meters' ? "m³" : "ft³"} 
                   value={volume}
-                  onChange={(e) => setVolume(e.target.value)}
+                  onChange={(e) => setVolume(parseFloat(e.target.value))}
                 />
               </FormGroup>
             </Col>
@@ -87,10 +88,22 @@ const RoomDimentions = ({materials, setMaterials, units, setUnits, volume, setVo
           units = {units}
           // onAreaChange={(index,e) => console.log(index,e.target.value)}
           onAreaChange={setMaterials}
+          autoCompleteArea = {autoCompleteArea}
+          setMaterials = {setMaterials}
+          linkedMaterial = {linkedMaterial}
+          setLinkedMaterial = {setLinkedMaterial}
         />
       </CardBody>
     </Card>
 
+    <Card>
+      <CardBody>
+        <p className="mb-0" style={{fontSize: "1.5rem"}}>Area left: 
+          <span className={`text-${areaColor} ml-2`}>{areaLeft}</span>
+          <span className={"ml-2 text-muted"} style={{fontSize: "1rem"}}>({units === 'meters' ? "m²" : "ft²"})</span>
+        </p> 
+      </CardBody>
+    </Card>
     
     </React.Fragment>
     

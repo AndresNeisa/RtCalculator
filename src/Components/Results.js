@@ -11,7 +11,28 @@ import {
     Table
   } from "reactstrap";
 
-const Results = ({ units, testMaterial, setTestMaterial }) => {
+const Results = ({ units, testMaterial, setTestMaterial, autoCompleteArea }) => {
+
+    // const autoCompleteArea = () => {
+    //     const area = parseFloat(areaLeft);
+    //     const materialArea = parseFloat(testMaterial.Area) || 0;
+
+    //     if(area){
+    //         if(area > 0){
+    //             setTestMaterial({...testMaterial, Area: materialArea + area});
+    //         }
+    //         else{
+    //             if(Math.abs(area) < materialArea){
+    //                 setTestMaterial({...testMaterial, Area: materialArea + area});
+    //             }
+    //             else{
+    //                 setAreaLeft(area + materialArea)
+    //                 setTestMaterial({...testMaterial, Area: 0});
+    //             }
+    //         }
+    //     }
+        
+    // }
 
     return (
         <React.Fragment>
@@ -58,6 +79,12 @@ const Results = ({ units, testMaterial, setTestMaterial }) => {
                         placeholder={units === 'meters' ? "m²" : "ft²"} 
                         value = {testMaterial.Area}
                         onChange = {e => {setTestMaterial({...testMaterial, Area: e.target.value})}}
+                        onDoubleClick = {
+                            (e) => autoCompleteArea({
+                                Area: e.target.value, 
+                                setMaterialArea: setTestMaterial,
+                                Index: -1
+                            })}
                     />
                 </FormGroup>
             </CardBody>
