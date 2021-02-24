@@ -11,32 +11,20 @@ import {
     Table
   } from "reactstrap";
 
-const Results = ({ units, testMaterial, setTestMaterial, autoCompleteArea }) => {
+const Results = ({ units, testMaterial, setTestMaterial, autoCompleteArea, revTime }) => {
 
-    // const autoCompleteArea = () => {
-    //     const area = parseFloat(areaLeft);
-    //     const materialArea = parseFloat(testMaterial.Area) || 0;
 
-    //     if(area){
-    //         if(area > 0){
-    //             setTestMaterial({...testMaterial, Area: materialArea + area});
-    //         }
-    //         else{
-    //             if(Math.abs(area) < materialArea){
-    //                 setTestMaterial({...testMaterial, Area: materialArea + area});
-    //             }
-    //             else{
-    //                 setAreaLeft(area + materialArea)
-    //                 setTestMaterial({...testMaterial, Area: 0});
-    //             }
-    //         }
-    //     }
-        
-    // }
+    const handleTestMaterial = (value, index) => {
+        let tempMaterial = {...testMaterial};
+        tempMaterial.Absorption[index] = parseFloat(value);
+        setTestMaterial(tempMaterial);
+    }
 
     return (
         <React.Fragment>
-            <LineChart></LineChart>
+            <LineChart
+                rt={revTime}
+            />
         
             <Card>
             <CardHeader>
@@ -62,12 +50,24 @@ const Results = ({ units, testMaterial, setTestMaterial, autoCompleteArea }) => 
                 <tbody>
                     <tr>
                     <td>Abs. Coef.</td>
-                    <td><Input type="text" name="input" placeholder="0-1" /></td>
-                    <td><Input type="text" name="input" placeholder="0-1" /></td>
-                    <td><Input type="text" name="input" placeholder="0-1" /></td>
-                    <td><Input type="text" name="input" placeholder="0-1" /></td>
-                    <td><Input type="text" name="input" placeholder="0-1" /></td>
-                    <td><Input type="text" name="input" placeholder="0-1" /></td>
+
+                    {
+                        testMaterial.Absorption.map((abs, index) => {
+                            return(
+                                <td key={`abs${index}`}>
+                                    <Input 
+                                        type="number" 
+                                        name="input" 
+                                        placeholder="0-1" 
+                                        value = {abs}
+                                        onChange = {(e) => handleTestMaterial(e.target.value, index)}
+                                    />
+                                </td>
+                            );
+                        })
+                    }
+                    
+                    
                     </tr>
                 </tbody>
                 </Table>
@@ -78,7 +78,7 @@ const Results = ({ units, testMaterial, setTestMaterial, autoCompleteArea }) => 
                         name="input" 
                         placeholder={units === 'meters' ? "m²" : "ft²"} 
                         value = {testMaterial.Area}
-                        onChange = {e => {setTestMaterial({...testMaterial, Area: e.target.value})}}
+                        onChange = {e => {setTestMaterial({...testMaterial, Area: parseFloat(e.target.value)})}}
                         onDoubleClick = {
                             (e) => autoCompleteArea({
                                 Area: e.target.value, 

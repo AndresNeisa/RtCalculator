@@ -3,7 +3,7 @@ import { Line } from "react-chartjs-2";
 
 import { Card, CardBody, CardHeader, CardTitle } from "reactstrap";
 
-const LineChart = ({ theme }) => {
+const LineChart = ({ theme, rt }) => {
   const data = {
     labels: [ 
       "125",
@@ -19,30 +19,23 @@ const LineChart = ({ theme }) => {
         fill: true,
         backgroundColor: "transparent",
         borderColor: theme.primary,
-        data: [
-          2.5,
-          1.4,
-          1.6,
-          1.7,
-          1.8,
-          2.8
-        ]
+        data: rt
       },
-      {
-        label: "With Material",
-        fill: true,
-        backgroundColor: "transparent",
-        borderColor: theme.tertiary,
-        borderDash: [4, 4],
-        data: [
-          1.3,
-          1.4,
-          1.6,
-          1.7,
-          1.1,
-          1.3,
-        ]
-      }
+      // {
+      //   label: "With Material",
+      //   fill: true,
+      //   backgroundColor: "transparent",
+      //   borderColor: theme.tertiary,
+      //   borderDash: [4, 4],
+      //   data: [
+      //     1.3,
+      //     1.4,
+      //     1.6,
+      //     1.7,
+      //     1.1,
+      //     1.3,
+      //   ]
+      // }
     ]
   };
 
